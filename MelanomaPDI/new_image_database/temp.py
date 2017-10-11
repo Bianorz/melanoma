@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-img = cv2.imread('Acrolentiginous Melanoma  (1)',0)
+img = cv2.imread('Acrolentiginous Melanoma  (1).jpg',0)
 #img = cv2.medianBlur(img,5)
 print(img.shape)
 cimg = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
