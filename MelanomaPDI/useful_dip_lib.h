@@ -172,7 +172,7 @@ Mat histCalc(Mat image, int hsize) {
 	return hist;
 }
 
-void histPlot(Mat hist, int histSize, int hist_w, int hist_h) {
+void histPlot(Mat hist, int histSize, int hist_w, int hist_h, string janela) {
 	//int hist_w = hist.cols; int hist_h = hist.rows;
 	int bin_w = cvRound((double) hist_w / histSize);
 	Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
@@ -181,11 +181,11 @@ void histPlot(Mat hist, int histSize, int hist_w, int hist_h) {
 		line(histImage,
 				Point(bin_w * (i - 1), hist_h - cvRound(hist.at<float>(i - 1))),
 				Point(bin_w * (i), hist_h - cvRound(hist.at<float>(i))),
-				Scalar(255, 255, 255), 7, 8, 0);
+				Scalar(255, 255, 255), 3, 8, 0);
 	}
-	namedWindow("Histograma", CV_WINDOW_NORMAL);
-	imshow("Histograma", histImage);
-	waitKey(0);
+	namedWindow(janela.c_str(), CV_WINDOW_NORMAL);
+	imshow(janela.c_str(), histImage);
+	//waitKey(0);
 }
 
 Mat detLine() {
