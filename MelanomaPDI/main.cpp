@@ -59,10 +59,11 @@ int main() {
 	int cont = 0;
 	int init_height = 150, init_width = 150;
 	int xb, yb;
+	int contador =1;
 	Point tl;
 	Point br;
 	while (1) {
-		capture.open("bad_results/out.mp4");
+		capture.open("melanoma_imgs/melanoma.mp4");
 
 		if (!capture.isOpened()) {
 			cout << "ERROR ACQUIRING VIDEO FEED\n";
@@ -185,7 +186,7 @@ int main() {
 				Rect boxContour(boundRect[myIndex].tl(),
 						boundRect[myIndex].br());
 				Mat black(img.size(), CV_8UC3, Scalar(0, 0, 0));
-				cout << myIndex << endl;
+				//cout << myIndex << endl;
 				drawContours(black, contours, myIndex, Scalar(255, 255, 255),
 						-1, 8, hierarchy, 0, Point());
 				bitwise_and(black, backup, resultBeforeCrop);
@@ -193,6 +194,8 @@ int main() {
 				namedWindow("White filled contour", WINDOW_NORMAL);
 				imshow("White filled contour", resultAfterCrop);
 				imshow("original",src);
+				cout << contador << endl;
+				contador++;
 				waitKey(0);
 
 			}
@@ -201,37 +204,5 @@ int main() {
 		capture.release();
 
 	}
-/*
- *
- *
- * comandos linux
- *
- * renomear
- *
- * #!/bin/bash
-counter=0
-for file in *jpg; do
-    [[ -f $file ]] && mv -i "$file" $((counter+1)).jpg && ((counter++))
-done
- *
- * gerar video 1 framerate
- *
- * ffmpeg -framerate 1 -pattern_type glob -i '*.jpg'     -c:v libx264 -r 1 -pix_fmt yuv420p out.mp4
- *
- * resize para 400x500
- *
- * convert '*.jpg[500x400!]' -set filename:base "%[base]" "new_folder/%[filename:base].jpg"
- *
- *
- * renomear, dar resize, fazer video, separar bad e good results
- *
- *
- *//*
-
-
-
-
-	return 0;
-
 }
 
