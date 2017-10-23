@@ -2,11 +2,12 @@
  *This code describes an example of how to segmentate a melanoma image
  *It's used the Otsu method for segmentation and for labelling it's used the distance between melanoma centroid and image center
  */
-#include "opencv2/opencv.hpp"
-#include "useful_dip_lib.h"
 #include <sstream>
 #include <ctime>
 #include <stack>
+
+#include "opencv2/opencv.hpp"
+#include "melanoma_libs.h"
 
 using namespace cv;
 using namespace std;
@@ -61,6 +62,24 @@ int main() {
 	int xb, yb;
 	Point tl;
 	Point br;
+    Mat C = (Mat_<char>(5,5) << 0,0,0,1,2,1,1,0,1,1,2,2,1,0,0,1,1,0,2,0,0,0,1,0,1);
+
+    float** my2DArray = matrizCooc(C);
+
+
+    for (int h = 0; h < 3; h++)
+    {
+          for (int w = 0; w < 3; w++)
+          {
+                cout << my2DArray[h][w] << " ";
+          }
+          cout << endl;
+    }
+
+    //cout << "C = " << endl << " " << C << endl << endl;
+    //double s = cv::sum( C )[0];
+    //cout << s << endl;
+    return 0;
 	while (1) {
 		capture.open("bad_results/out.mp4");
 
@@ -226,7 +245,7 @@ done
  * renomear, dar resize, fazer video, separar bad e good results
  *
  *
- *//*
+ */
 
 
 
