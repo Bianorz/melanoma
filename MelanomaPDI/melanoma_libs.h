@@ -59,17 +59,19 @@ Mat detLine() {
 
 }
 
-float** matrizCooc(Mat C) {
+void textura(Mat C, float* descritor) {
 	//cout << "C = " << endl << " " << C << endl << endl;
 	double min, max;
 	minMaxLoc(C, &min, &max);
-
-	float jimmy[int(max) + 1][int(max) + 1] = { 0 };
+	float contraste = 0, dissimilaridade = 0, homogeneidade = 0, energia = 0,
+			entropia = 0, smo = 0;
+	float P[int(max) + 1][int(max) + 1] = { 0 };
 	int pixelAtual;
 	int pixelTarget;
 	int soma = 0;
 	int height = max + 1;
 	int width = height;
+	int n = height;
 	float** array2D = 0;
 	array2D = new float*[height];
 	for (int i = 0; i < C.cols - 1; i++) {
@@ -81,7 +83,7 @@ float** matrizCooc(Mat C) {
 			for (int k = 0; k <= max; k++) {
 				for (int m = 0; m <= max; m++) {
 					if (pixelAtual == k && pixelTarget == m) {
-						jimmy[k][m] = jimmy[k][m] + 1;
+						P[k][m] = P[k][m] + 1;
 					}
 
 				}
@@ -93,24 +95,34 @@ float** matrizCooc(Mat C) {
 
 	for (int k = 0; k <= max; k++) {
 		for (int m = 0; m <= max; m++) {
-			soma = soma + jimmy[k][m];
+			soma = soma + P[k][m];
 		}
 	}
 	for (int k = 0; k <= max; k++) {
 		for (int m = 0; m <= max; m++) {
-			jimmy[k][m] = jimmy[k][m] / soma;
-			if (jimmy[k][m]<0.0000001){
-				jimmy[k][m] = 0;
+			P[k][m] = P[k][m] / soma;
+			if (P[k][m] < 0.0000001) {
+				P[k][m] = 0;
 			}
 		}
 	}
-	for (int h = 0; h < height; h++) {
-		array2D[h] = new float[width];
 
+	for (int h = 0; h < height; h++) {
 		for (int w = 0; w < width; w++) {
-			array2D[h][w] = jimmy[h][w];
+			contraste = contraste + P[h][w] * (h - w) * (h - w);
+			dissimilaridade = dissimilaridade + P[h][w] * abs(h - w);
+			homogeneidade = homogeneidade + P[h][w] / (1 + (h - w) * (h - w));
+			smo = smo + P[h][w] * P[h][w];
+			if (P[h][w] != 0) {
+				entropia = entropia + P[h][w] * -1 * log(P[h][w]);
+			}
 		}
 	}
+	energia = sqrt(smo);
+	descritor[0] = contraste;
+	descritor[1] = dissimilaridade;
+	descritor[2] = homogeneidade;
+	descritor[3] = energia;
+	descritor[4] = entropia;
 
-	return array2D;
 }

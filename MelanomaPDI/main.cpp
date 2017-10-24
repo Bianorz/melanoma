@@ -5,7 +5,7 @@
 #include <sstream>
 #include <ctime>
 #include <stack>
-
+#include <math.h>
 #include "opencv2/opencv.hpp"
 #include "melanoma_libs.h"
 
@@ -60,28 +60,21 @@ int main() {
 	int cont = 0;
 	int init_height = 150, init_width = 150;
 	int xb, yb;
+	int contador = 1;
 	Point tl;
 	Point br;
-    Mat C = (Mat_<char>(5,5) << 0,0,0,1,2,1,1,0,1,1,2,2,1,0,0,1,1,0,2,0,0,0,1,0,1);
+	Mat C =
+			(Mat_<char>(5, 5) << 0, 0, 0, 1, 2, 1, 1, 0, 1, 1, 2, 2, 1, 0, 0, 1, 1, 0, 2, 0, 0, 0, 1, 0, 1);
+	float descritor[5];
+	textura(C, descritor);
 
-    float** my2DArray = matrizCooc(C);
+	for (int w = 0; w < 5; w++) {
+		cout << descritor[w] << endl;
+	}
 
-
-    for (int h = 0; h < 3; h++)
-    {
-          for (int w = 0; w < 3; w++)
-          {
-                cout << my2DArray[h][w] << " ";
-          }
-          cout << endl;
-    }
-
-    //cout << "C = " << endl << " " << C << endl << endl;
-    //double s = cv::sum( C )[0];
-    //cout << s << endl;
-    return 0;
+	return 0;
 	while (1) {
-		capture.open("bad_results/out.mp4");
+		capture.open("melanoma_imgs/melanoma.mp4");
 
 		if (!capture.isOpened()) {
 			cout << "ERROR ACQUIRING VIDEO FEED\n";
@@ -177,7 +170,7 @@ int main() {
 				for (int index = 0; index >= 0; index = hierarchy[index][0]) {
 					Moments moment = moments((cv::Mat) contours[index]);
 					area = moment.m00;
-					if (area > 0.05*img.cols*img.rows) {
+					if (area > 0.05 * img.cols * img.rows) {
 						int xb = moment.m10 / area;
 						int yb = moment.m01 / area;
 						float distance = sqrt(
@@ -193,7 +186,6 @@ int main() {
 						namedWindow("Detected Points", WINDOW_NORMAL);
 						imshow("Detected Points", img);
 
-
 						if (distance < minDist) {
 							minDist = distance;
 							myIndex = index;
@@ -204,14 +196,16 @@ int main() {
 				Rect boxContour(boundRect[myIndex].tl(),
 						boundRect[myIndex].br());
 				Mat black(img.size(), CV_8UC3, Scalar(0, 0, 0));
-				cout << myIndex << endl;
+				//cout << myIndex << endl;
 				drawContours(black, contours, myIndex, Scalar(255, 255, 255),
 						-1, 8, hierarchy, 0, Point());
 				bitwise_and(black, backup, resultBeforeCrop);
 				resultAfterCrop = resultBeforeCrop(boxContour);
 				namedWindow("White filled contour", WINDOW_NORMAL);
 				imshow("White filled contour", resultAfterCrop);
-				imshow("original",src);
+				imshow("original", src);
+				cout << contador << endl;
+				contador++;
 				waitKey(0);
 
 			}
@@ -220,37 +214,34 @@ int main() {
 		capture.release();
 
 	}
-/*
- *
- *
- * comandos linux
- *
- * renomear
- *
- * #!/bin/bash
-counter=0
-for file in *jpg; do
-    [[ -f $file ]] && mv -i "$file" $((counter+1)).jpg && ((counter++))
-done
- *
- * gerar video 1 framerate
- *
- * ffmpeg -framerate 1 -pattern_type glob -i '*.jpg'     -c:v libx264 -r 1 -pix_fmt yuv420p out.mp4
- *
- * resize para 400x500
- *
- * convert '*.jpg[500x400!]' -set filename:base "%[base]" "new_folder/%[filename:base].jpg"
- *
- *
- * renomear, dar resize, fazer video, separar bad e good results
- *
- *
- */
 
-
-
+	/*
+	 *
+	 *
+	 * comandos linux
+	 *
+	 * renomear
+	 *
+	 * #!/bin/bash
+	 counter=0
+	 for file in *jpg; do
+	 [[ -f $file ]] && mv -i "$file" $((counter+1)).jpg && ((counter++))
+	 done
+	 *
+	 * gerar video 1 framerate
+	 *
+	 * ffmpeg -framerate 1 -pattern_type glob -i '*.jpg'     -c:v libx264 -r 1 -pix_fmt yuv420p out.mp4
+	 *
+	 * resize para 400x500
+	 *
+	 * convert '*.jpg[500x400!]' -set filename:base "%[base]" "new_folder/%[filename:base].jpg"
+	 *
+	 *
+	 * renomear, dar resize, fazer video, separar bad e good results
+	 *
+	 *
+	 */
 
 	return 0;
-
 }
 
