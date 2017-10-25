@@ -64,7 +64,7 @@ int main() {
 	Mat crop;
 	Mat R, G, B;
 	Mat src, directResult, combinedResult, gray, negative, aux, backup,
-			resultAfterCrop, resultBeforeCrop;
+			resultAfterCrop, resultBeforeCrop, original;
 	double redThresh, greenThresh, blueThresh;
 	double area;
 	double combinedThresh, directThresh;
@@ -84,6 +84,7 @@ int main() {
 			cout << "File not found" << endl;
 			//return -1;
 		} else {
+			src.copyTo(original);
 			resize(src, src, size);
 			cont = 0;
 			height = initH;
@@ -185,15 +186,19 @@ int main() {
 					stringstream good_res_path;
 					stringstream good_orig_path;
 					good_res_path << good_res_folder << i << img_extension;
-					//good_orig_path << good_res_folder << "orig"<<i
+					good_orig_path << good_res_folder <<i<< "_orig"<<img_extension;
 					imwrite(good_res_path.str(),resultAfterCrop);
+					imwrite(good_orig_path.str(),original);
 
 				} else {
 
 					String bad_res_folder = "bad_results/";
+					stringstream bad_orig_path;
 					stringstream bad_res_path;
 					bad_res_path << bad_res_folder << i << img_extension;
+					bad_orig_path << bad_res_folder <<i<< "_orig"<<img_extension;
 					imwrite(bad_res_path.str(),resultAfterCrop);
+					imwrite(bad_orig_path.str(),original);
 				}
 
 			}

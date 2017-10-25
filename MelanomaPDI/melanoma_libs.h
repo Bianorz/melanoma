@@ -71,9 +71,6 @@ void textura(Mat C, float* descritor) {
 	int soma = 0;
 	int height = max + 1;
 	int width = height;
-	int n = height;
-	float** array2D = 0;
-	array2D = new float*[height];
 	for (int i = 0; i < C.cols - 1; i++) {
 		for (int j = 0; j < C.rows - 1; j++) {
 
