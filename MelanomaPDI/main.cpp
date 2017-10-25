@@ -45,83 +45,78 @@ Mat invert_image(cv::Mat const& input) {
 }
 
 int main() {
-	VideoCapture capture;
-	Mat img, crop;
+	String melanomaFolder = "melanoma_imgs/";
+	String nevoFolder = "nevos/";
+	String img_extension = ".jpg";
+	int num_mel_img = 120;
+	int num_nev_img = 22;
+	int rows;
+	int cols;
+	int cont = 0;
+	int initH = 150;
+	int initW = 150;
+	int height;
+	int width;
+	int xb, yb;
+	int contador;
+	int n_crops = 5;
+	vector<Mat> channels;
+	Mat crop;
 	Mat R, G, B;
 	Mat src, directResult, combinedResult, gray, negative, aux, backup,
 			resultAfterCrop, resultBeforeCrop;
 	double redThresh, greenThresh, blueThresh;
-	vector<Mat> channels;
-	int rows;
-	int cols;
 	double area;
-	int n_crops = 4;
 	double combinedThresh, directThresh;
-	int cont = 0;
-	int init_height = 150, init_width = 150;
-	int xb, yb;
-	int contador = 1;
-	Point tl;
-	Point br;
-	Mat C =
-			(Mat_<char>(5, 5) << 0, 0, 0, 1, 2, 1, 1, 0, 1, 1, 2, 2, 1, 0, 0, 1, 1, 0, 2, 0, 0, 0, 1, 0, 1);
-	float descritor[5];
-	textura(C, descritor);
+	double reduction_percentage = 0.9; // for crops
+	double ratio_lesion_area = 0.05;
+	Point topLeft;
+	Point bottonRight;
+	Size size(500, 400);
 
-	for (int w = 0; w < 5; w++) {
-		cout << descritor[w] << endl;
-	}
+	// Analise melanoma
 
-	return 0;
-	while (1) {
-		capture.open("melanoma_imgs/melanoma.mp4");
-
-		if (!capture.isOpened()) {
-			cout << "ERROR ACQUIRING VIDEO FEED\n";
-			getchar();
-			return -1;
-		}
-		while (capture.get(CV_CAP_PROP_POS_FRAMES)
-				< capture.get(CV_CAP_PROP_FRAME_COUNT) - 1) {
-			int height = init_height, width = init_width;
+	for (int i = 1; i <= num_mel_img; i++) {
+		stringstream imgPath;
+		imgPath << melanomaFolder << i << img_extension;
+		src = imread(imgPath.str());
+		if (!src.data) {
+			cout << "File not found" << endl;
+			//return -1;
+		} else {
+			resize(src, src, size);
 			cont = 0;
-			capture.read(img);
-			img.copyTo(src);
-			//	imshow("without crop",img);
-			//	waitKey(0);
+			height = initH;
+			width = initW;
 			while (cont < n_crops) {
-				cvtColor(img, gray, COLOR_BGR2GRAY);
+				cvtColor(src, gray, COLOR_BGR2GRAY);
 				negative = invert_image(gray);
 				Moments moment = moments(negative);
 				area = moment.m00;
 				xb = moment.m10 / area;
 				yb = moment.m01 / area;
-				tl.x = xb - width;
-				if (tl.x < 0)
-					tl.x = 0;
-				tl.y = yb - height;
-				if (tl.y < 0)
-					tl.y = 0;
-				br.x = xb + width;
-				if (br.x > img.cols)
-					br.x = img.cols;
-				br.y = yb + height;
-				if (br.y > img.rows)
-					br.y = img.rows;
-				Rect boxContour(tl, br);
-				crop = img(boxContour);
-				crop.copyTo(img);
-				height = 0.9 * height;
-				width = 0.9 * width;
-				//	imshow("with crop",img);
-				//	waitKey(0);
+				topLeft.x = xb - width;
+				if (topLeft.x < 0)
+					topLeft.x = 0;
+				topLeft.y = yb - height;
+				if (topLeft.y < 0)
+					topLeft.y = 0;
+				bottonRight.x = xb + width;
+				if (bottonRight.x > src.cols)
+					bottonRight.x = src.cols;
+				bottonRight.y = yb + height;
+				if (bottonRight.y > src.rows)
+					bottonRight.y = src.rows;
+				Rect boxContour(topLeft, bottonRight);
+				crop = src(boxContour);
+				crop.copyTo(src);
+				height = reduction_percentage * height;
+				width = reduction_percentage * width;
 				cont++;
 			}
-			rows = img.rows;
-			cols = img.cols;
-			split(img, channels);
-			cvtColor(img, gray, COLOR_BGR2GRAY);
-			img.copyTo(backup);
+			src.copyTo(backup);
+			split(src, channels);
+			cvtColor(src, gray, COLOR_BGR2GRAY);
 			channels[0].copyTo(B);
 			channels[1].copyTo(G);
 			channels[2].copyTo(R);
@@ -134,20 +129,13 @@ int main() {
 			combinedThresh = round(
 					0.299 * redThresh + 0.587 * greenThresh
 							+ 0.114 * blueThresh);
-			directThresh = threshold(gray, directResult, 0, 255,
-					THRESH_BINARY_INV | CV_THRESH_OTSU);
 			threshold(gray, combinedResult, combinedThresh, 255,
 					THRESH_BINARY_INV);
-			cout << "Combined value: " << combinedThresh << " Direct Value: "
-					<< directThresh << endl;
 			medianBlur(combinedResult, combinedResult, 3);
-			medianBlur(directResult, directResult, 3);
-			/*	imshow("Using 3 channels ponderation", combinedResult);
-			 imshow("Applying directing in the gray scale", directResult);
-			 imshow("Gray Image", gray);
-			 waitKey(0);
-			 */
-			// CONTOUR DETECTION
+
+
+			// Contour detection
+
 			vector<vector<Point> > contours;
 			vector<Vec4i> hierarchy;
 			findContours(combinedResult, contours, hierarchy, CV_RETR_CCOMP,
@@ -156,35 +144,19 @@ int main() {
 			for (size_t i = 0; i < contours.size(); i++) {
 				boundRect[i] = boundingRect(Mat(contours[i]));
 			}
-
 			float minDist = 9999;
-			int myIndex;
-			/*
-			 * The hierarchy.size() is used to know if some contour is detected, after that a loop through the contour is initiated.
-			 * This version excludes areas below 5000 pixels squared, to avoid contours that aren't significant (this need to be way improved)
-			 * 'xb' and 'yb' are used to get the contour centroid, more details can be found here: http://docs.opencv.org/trunk/dd/d49/tutorial_py_contour_features.html
-			 * 'distance' is the way that its decided what contour is the melanoma, usually the melanoma will be in the center of the image,
-			 * so if the image centroid is closer than 900 pixels from the img centroid, then it's considered to be the melanoma contour (Need improvement too)
-			 * */
+			int myIndex = 0;
+
 			if (hierarchy.size() > 0) {
 				for (int index = 0; index >= 0; index = hierarchy[index][0]) {
 					Moments moment = moments((cv::Mat) contours[index]);
 					area = moment.m00;
-					if (area > 0.05 * img.cols * img.rows) {
+					if (area > ratio_lesion_area * src.cols * src.rows) {
 						int xb = moment.m10 / area;
 						int yb = moment.m01 / area;
 						float distance = sqrt(
-								pow((xb - cols / 2), 2)
-										+ pow((yb - rows / 2), 2));
-						//cout << "area = " << area << "distance = " << distance
-						//	<< " n contornos: " << contours.size() << endl;
-						//circle(img, Point(cols / 2, rows / 2), 5,
-						//	Scalar(255, 255, 255), 5);
-						//circle(img, Point(xb, yb), 5, Scalar(0, 255, 0), 5);
-						drawContours(img, contours, index, Scalar(0, 255, 0), 2,
-								8, hierarchy, 0, Point());
-						namedWindow("Detected Points", WINDOW_NORMAL);
-						imshow("Detected Points", img);
+								pow((xb - src.cols / 2), 2)
+										+ pow((yb - src.rows / 2), 2));
 
 						if (distance < minDist) {
 							minDist = distance;
@@ -193,55 +165,72 @@ int main() {
 					}
 				}
 
-				Rect boxContour(boundRect[myIndex].tl(),
-						boundRect[myIndex].br());
-				Mat black(img.size(), CV_8UC3, Scalar(0, 0, 0));
+				Rect boxContour(boundRect[myIndex].tl(),boundRect[myIndex].br());
+				Mat black(src.size(), CV_8UC3, Scalar(0, 0, 0));
 				//cout << myIndex << endl;
 				drawContours(black, contours, myIndex, Scalar(255, 255, 255),
 						-1, 8, hierarchy, 0, Point());
 				bitwise_and(black, backup, resultBeforeCrop);
 				resultAfterCrop = resultBeforeCrop(boxContour);
-				namedWindow("White filled contour", WINDOW_NORMAL);
-				imshow("White filled contour", resultAfterCrop);
-				imshow("original", src);
-				cout << contador << endl;
-				contador++;
+				//namedWindow("Result", WINDOW_NORMAL);
+				imshow("Result", resultAfterCrop);
+				imshow("original", backup);
 				waitKey(0);
+				cout << "Resultado aceitavel? (1/sim) (0/nao)"<<endl;
+				cin >> contador;
+
+				if (contador == 1){
+
+					String good_res_folder = "good_results/";
+					stringstream good_res_path;
+					stringstream good_orig_path;
+					good_res_path << good_res_folder << i << img_extension;
+					//good_orig_path << good_res_folder << "orig"<<i
+					imwrite(good_res_path.str(),resultAfterCrop);
+
+				} else {
+
+					String bad_res_folder = "bad_results/";
+					stringstream bad_res_path;
+					bad_res_path << bad_res_folder << i << img_extension;
+					imwrite(bad_res_path.str(),resultAfterCrop);
+				}
 
 			}
+
 		}
-
-		capture.release();
-
 	}
 
-	/*
-	 *
-	 *
-	 * comandos linux
-	 *
-	 * renomear
-	 *
-	 * #!/bin/bash
-	 counter=0
-	 for file in *jpg; do
-	 [[ -f $file ]] && mv -i "$file" $((counter+1)).jpg && ((counter++))
-	 done
-	 *
-	 * gerar video 1 framerate
-	 *
-	 * ffmpeg -framerate 1 -pattern_type glob -i '*.jpg'     -c:v libx264 -r 1 -pix_fmt yuv420p out.mp4
-	 *
-	 * resize para 400x500
-	 *
-	 * convert '*.jpg[500x400!]' -set filename:base "%[base]" "new_folder/%[filename:base].jpg"
-	 *
-	 *
-	 * renomear, dar resize, fazer video, separar bad e good results
-	 *
-	 *
-	 */
-
-	return 0;
 }
+
+/*
+ *
+ *
+ * comandos linux
+ *
+ * renomear
+ *
+ * #!/bin/bash
+ counter=0
+ for file in *jpg; do
+ [[ -f $file ]] && mv -i "$file" $((counter+1)).jpg && ((counter++))
+ done
+ *
+ * gerar video 1 framerate
+ *
+ * ffmpeg -framerate 1 -pattern_type glob -i '*.jpg'     -c:v libx264 -r 1 -pix_fmt yuv420p out.mp4
+ *
+ * resize para 400x500
+ *
+ * convert '*.jpg[500x400!]' -set filename:base "%[base]" "new_folder/%[filename:base].jpg"
+ *
+ *Mat C =
+			(Mat_<char>(5, 5) << 0, 0, 0, 1, 2, 1, 1, 0, 1, 1, 2, 2, 1, 0, 0, 1, 1, 0, 2, 0, 0, 0, 1, 0, 1);
+	float descritor[5];
+	textura(C, descritor);
+ *
+ * renomear, dar resize, fazer video, separar bad e good results
+ *
+ *
+ */
 
