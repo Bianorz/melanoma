@@ -27,10 +27,10 @@ int main() {
 	// ORDER MATTER! Use '1' to select, 0 to deselect
 	bool texture_features_selection[] = { 1, 1, 1, 1, 1 };
 
-	get_training_data(nevoFolder, melanomaFolder, samples_training_percentange,
-			texture_features_selection,trainDataFile,responsesFile);
+	//get_training_data(nevoFolder, melanomaFolder, samples_training_percentange,
+		//	texture_features_selection,trainDataFile,responsesFile);
 
-	get_test_data(nevoFolder, melanomaFolder, samples_training_percentange,
-			texture_features_selection,testDataFile,realValuesTestData);
+	//get_test_data(nevoFolder, melanomaFolder, samples_training_percentange,
+			//texture_features_selection,testDataFile,realValuesTestData);
 	toc();
 }
