@@ -22,29 +22,7 @@ Mat invert_image(cv::Mat const& input) {
 	return 255 - input;
 }
 
-Mat histCalc(Mat image, int hsize) {
-	Mat hist;
-	float range[] = { 0, float(hsize) }; // range de cores
-	const float* histRange = { range }; // variavel do histograma
-	calcHist(&image, 1, 0, Mat(), hist, 1, &hsize, &histRange); // cálculo o histograma de cada vaga e salvo em backHist
-	return hist;
-}
 
-void histPlot(Mat hist, int histSize, int hist_w, int hist_h, string janela) {
-	//int hist_w = hist.cols; int hist_h = hist.rows;
-	int bin_w = cvRound((double) hist_w / histSize);
-	Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
-	normalize(hist, hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
-	for (int i = 1; i < histSize; i++) {
-		line(histImage,
-				Point(bin_w * (i - 1), hist_h - cvRound(hist.at<float>(i - 1))),
-				Point(bin_w * (i), hist_h - cvRound(hist.at<float>(i))),
-				Scalar(255, 255, 255), 3, 8, 0);
-	}
-	namedWindow(janela.c_str(), CV_WINDOW_NORMAL);
-	imshow(janela.c_str(), histImage);
-	waitKey(0);
-}
 
 Mat detLine() {
 	Mat img = imread("images/apple.png");
@@ -115,13 +93,13 @@ float *get_texture_descriptors(Mat C) {
 
 	}
 
-	for (int k = 0; k <= max; k++) {
-		for (int m = 0; m <= max; m++) {
+	for (int k = 1; k <= max; k++) {
+		for (int m = 1; m <= max; m++) {
 			soma = soma + co_ocurrence_matrix[k][m];
 		}
 	}
-	for (int k = 0; k <= max; k++) {
-		for (int m = 0; m <= max; m++) {
+	for (int k = 1; k <= max; k++) {
+		for (int m = 1; m <= max; m++) {
 			co_ocurrence_matrix[k][m] = co_ocurrence_matrix[k][m] / soma;
 			if (co_ocurrence_matrix[k][m] < 0.00001) {
 				co_ocurrence_matrix[k][m] = 0;
@@ -284,8 +262,7 @@ void rename_files(String path) {
 	system(imgPath.str().c_str());
 }
 
-void get_training_data(String nevFolder, String melFolder, int s_perc,
-		bool text_selec[5],String trainDataFile, String responsesFile) {
+void get_training_data(String nevFolder, String melFolder, int s_perc,String trainDataFile, String responsesFile) {
 	float* texture_descriptors;
 
 	rename_files(nevFolder);
@@ -316,7 +293,6 @@ void get_training_data(String nevFolder, String melFolder, int s_perc,
 			texture_descriptors = get_texture_descriptors(segmented_image);
 
 			for (int j = 0; j < 5; j++) {
-				if (text_selec[j] == 1)
 					trainData << texture_descriptors[j] << " ";
 			}
 			responses << "0" << "\n";
@@ -338,7 +314,7 @@ void get_training_data(String nevFolder, String melFolder, int s_perc,
 			texture_descriptors = get_texture_descriptors(segmented_image);
 
 			for (int j = 0; j < 5; j++) {
-				if (text_selec[j] == 1)
+
 					trainData << texture_descriptors[j] << " ";
 			}
 			responses << "1" << "\n";
@@ -354,7 +330,7 @@ void get_training_data(String nevFolder, String melFolder, int s_perc,
 }
 
 void get_test_data(String nevFolder, String melFolder, int s_perc,
-		bool text_selec[5],String testDataFile, String realValuesTestData){
+		String testDataFile, String realValuesTestData){
 
 
 	float* texture_descriptors;
@@ -384,7 +360,6 @@ void get_test_data(String nevFolder, String melFolder, int s_perc,
 			texture_descriptors = get_texture_descriptors(segmented_image);
 
 			for (int j = 0; j < 5; j++) {
-				if (text_selec[j] == 1)
 					testData << texture_descriptors[j] << " ";
 			}
 			testData << "\n";
@@ -405,7 +380,6 @@ void get_test_data(String nevFolder, String melFolder, int s_perc,
 			texture_descriptors = get_texture_descriptors(segmented_image);
 
 			for (int j = 0; j < 5; j++) {
-				if (text_selec[j] == 1)
 					testData << texture_descriptors[j] << " ";
 			}
 			testData << "\n";
@@ -416,129 +390,4 @@ void get_test_data(String nevFolder, String melFolder, int s_perc,
 	cout << "Test data features collected" << endl;
 
 }
-
-/* KNN RASCUNHO
- // GenData.cpp
-
- #include<opencv2/core/core.hpp>
- #include<opencv2/highgui/highgui.hpp>
- #include<opencv2/imgproc/imgproc.hpp>
- #include<opencv2/ml/ml.hpp>
-
- #include<iostream>
- #include<vector>
-
- // global variables ///////////////////////////////////////////////////////////////////////////////
- const int MIN_CONTOUR_AREA = 100;
-
- const int RESIZED_IMAGE_WIDTH = 20;
- const int RESIZED_IMAGE_HEIGHT = 30;
-
- ///////////////////////////////////////////////////////////////////////////////////////////////////
- int main() {
- /*
- cv::Mat matClassificationInts;
- cv::Mat matTrainingImagesAsFlattenedFloats;
-
- std::vector<float> opa1;
- std::vector<float> opa2;
-
- opa1.push_back(7);
- opa1.push_back(8);
- opa1.push_back(9);
- opa1.push_back(7);
- opa1.push_back(6);
-
- opa2.push_back(20);
- opa2.push_back(21);
- opa2.push_back(18);
- opa2.push_back(17);
- opa2.push_back(19);
-
- cv::Mat C = (cv::Mat_<float>(1, 4) << 1, 2, 3, 4);
- cv::Mat D = (cv::Mat_<float>(1, 4) << 2, 4, 6, 8);
- matClassificationInts.push_back(1);
- matTrainingImagesAsFlattenedFloats.push_back(C);
- matClassificationInts.push_back(2);
- matTrainingImagesAsFlattenedFloats.push_back(D);
- std::cout << "training complete\n\n";
-
- cv::FileStorage fsClassifications("classifications.xml",
- cv::FileStorage::WRITE); // open the classifications file
-
- if (fsClassifications.isOpened() == false) { // if the file was not opened successfully
- std::cout
- << "error, unable to open training classifications file, exiting program\n\n"; // show error message
- return (0); // and exit program
- }
-
- fsClassifications << "classifications" << matClassificationInts; // write classifications into classifications section of classifications file
- fsClassifications.release(); // close the classifications file
-
- // save training images to file ///////////////////////////////////////////////////////
-
- cv::FileStorage fsTrainingImages("images.xml", cv::FileStorage::WRITE); // open the training images file
-
- if (fsTrainingImages.isOpened() == false) { // if the file was not opened successfully
- std::cout
- << "error, unable to open training images file, exiting program\n\n"; // show error message
- return (0); // and exit program
- }
-
- fsTrainingImages << "images" << matTrainingImagesAsFlattenedFloats; // write training images into images section of images file
- fsTrainingImages.release();// close the training images file
-
- FIM TREINAMENTO
-
-
- cv::Mat matClassificationInts; // we will read the classification numbers into this variable as though it is a vector
-
- cv::FileStorage fsClassifications("classifications.xml",
- cv::FileStorage::READ); // open the classifications file
-
- if (fsClassifications.isOpened() == false) { // if the file was not opened successfully
- std::cout
- << "error, unable to open training classifications file, exiting program\n\n"; // show error message
- return (0); // and exit program
- }
-
- fsClassifications["classifications"] >> matClassificationInts; // read classifications section into Mat classifications variable
- fsClassifications.release(); // close the classifications file
-
- cv::Mat matTrainingImagesAsFlattenedFloats; // we will read multiple images into this single image variable as though it is a vector
-
- cv::FileStorage fsTrainingImages("images.xml", cv::FileStorage::READ); // open the training images file
-
- if (fsTrainingImages.isOpened() == false) { // if the file was not opened successfully
- std::cout
- << "error, unable to open training images file, exiting program\n\n"; // show error message
- return (0); // and exit program
- }
-
- fsTrainingImages["images"] >> matTrainingImagesAsFlattenedFloats; // read images section into Mat training images variable
- fsTrainingImages.release(); // close the traning images file
-
- cv::Ptr<cv::ml::KNearest> kNearest(cv::ml::KNearest::create()); // instantiate the KNN object
-
- // finally we get to the call to train, note that both parameters have to be of type Mat (a single Mat)
- // even though in reality they are multiple images / numbers
- kNearest->train(matTrainingImagesAsFlattenedFloats, cv::ml::ROW_SAMPLE,
- matClassificationInts);
-
- //  cv::Mat matROIFlattenedFloat = (cv::Mat_<float>(1, 1) << 3);
-
- //  cv::Mat matCurrentChar(0, 0, CV_32F);
-
- // kNearest->findNearest(matROIFlattenedFloat, 3, matCurrentChar);     // finally we can call find_nearest !!!
-
- // float fltCurrentChar = (float)matCurrentChar.at<float>(0, 0);
-
- // std::cout << "classe: " << fltCurrentChar << std::endl;
-
-
- return 0;
- }
-
- *
- */
 
