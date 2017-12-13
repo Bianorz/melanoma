@@ -1,0 +1,19 @@
+Erro (descritor: Energia) 17.86% = (falsoPositivo+FalsoNegativo)/numero_de_amostras
+ 
+----------------------------------------------------
+39.29 %| 8.93  %
+8.93  %| 42.86 %
+
+É melanoma e algoritmo deu que é melanoma/numero de amostras |  É melanoma e algoritmo deu que é nevo/numero de amostras
+É nevo e algoritmo deu que é melanoma/numero de amostras     |  É nevo e algoritmo deu que é nevo/numero de amostras
+
+----------------------------------------------------
+
+81.48 %| 50 % 
+50    %| 82.76 %
+
+É melanoma e algoritmo deu que é melanoma/numero de melanomas      |  É melanoma e algoritmo deu que é nevo/(falsoPositivo+FalsoNegativo)
+É nevo e algoritmo deu que é melanoma/(falsoPositivo+FalsoNegativo)|  É nevo e algoritmo deu que é nevo/numero de nevos
+
+
+
