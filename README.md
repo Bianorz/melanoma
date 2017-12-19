@@ -21,3 +21,5 @@ A brief explanation of how the segmentation and labelling are developed can be f
   <b></b><br>
   <br><br>
 </p>
+
+[Link para nova base de melanomas](https://drive.google.com/open?id=1oF4Q_DqZ62gIoHS90KFtsFJ3TzwB0SwS)
