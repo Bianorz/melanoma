@@ -14,37 +14,28 @@ from numpy import genfromtxt
 # [3] = energia;
 # [4] = entropia;
 #====================================
-def clear_all():
-    """Clears all the variables from the workspace of the spyder application."""
-    gl = globals().copy()
-    for var in gl:
-        if var[0] == '_': continue
-        if 'func' in str(globals()[var]): continue
-        if 'module' in str(globals()[var]): continue
 
-        del globals()[var]
-
-clear_all()
-print ("\n" * 100)
+# Get data from the .csv files generated from the c++ program
 trainData = genfromtxt('trainData.csv', delimiter=' ')
 responses = genfromtxt('responses.csv', delimiter=' ')
 testData = genfromtxt('testData.csv', delimiter=' ')
 realData = genfromtxt('realData.csv', delimiter=' ')
 
+# Convert to float32 data type
 trainData = np.float32(trainData)
 responses = np.float32(responses)
 testData = np.float32(testData)
 realData = np.float32(realData)
 
-#=========================================
-# NUmber of nevo images for test = 29
-# Number of melanoma images for test = 27
-#
-#
-#================================
-number_of_nevo_images_for_test=29
-number_of_melanoma_images_for_test=27
+# Get the number of nevos and melanomas for test
+test_number = genfromtxt('test_info.txt', delimiter=' ')
+n_test_nevo = test_number[1]
+n_test_melanoma = test_number[2]
+
+# Number of neighbors used in the KNN
 neib = 9;
+
+
 acertos = 0
 falsoPositivo = 0;
 falsoNegativo = 0;
@@ -73,8 +64,8 @@ for x in range(0, 5):
    print "",falsoPositivo*100/float(realData.size), "|", nevo_Nevo*100/float(realData.size),"\n"
    print "---------------------------------------"
    
-   print "",melanoma_Melanoma*100/float(number_of_melanoma_images_for_test), "|", 100*falsoNegativo/(falsoNegativo+falsoPositivo),"\n"
-   print "",100*falsoPositivo/(falsoNegativo+falsoPositivo), "|", nevo_Nevo*100/float(number_of_nevo_images_for_test),"\n"
+   print "",melanoma_Melanoma*100/float(n_test_melanoma), "|", 100*falsoNegativo/(falsoNegativo+falsoPositivo),"\n"
+   print "",100*falsoPositivo/(falsoNegativo+falsoPositivo), "|", nevo_Nevo*100/float(n_test_nevo),"\n"
    print "-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-"
    #print "Falso Positivo[",x,"] = ",100*falsoPositivo/(falsoNegativo+falsoPositivo),"%\n"
    #print "Falso Negativo[",x,"] = ",100*falsoNegativo/(falsoNegativo+falsoPositivo),"%\n\n"   

@@ -9,22 +9,37 @@ using namespace cv;
 using namespace std;
 
 int main() {
-	tic();
 
+	tic();
+	// Folder inside my project where all my nevo images are
 	String nevoFolder = "nevo_database/";
+	// Folder inside my project where all my melanoma images are
 	String melanomaFolder = "melanoma_database/";
 
-	String trainDataFile = "trainData.csv";
+	/*
+	Files used to train the knn classifier.
+	In the first trainData.csv row we will have the information of the contrast,
+	dissimilarity, homogeneity, energy and entropy descritors of one image.
+	The responses.csv file will indicate that these descritors are from a
+	nevo (0) or melanoma (1) image.
+	*/
+	String trainDataFile = "trainData.csv"; // File
 	String responsesFile = "responses.csv";
 
+
+	// Files used to check the results of the knn classifier.
 	String testDataFile = "testData.csv";
 	String realValuesTestData = "realData.csv";
 
 	// Database's percentage used for training the knn classification
 	int samples_training_percentange = 70;
 
-	get_training_data(nevoFolder, melanomaFolder, samples_training_percentange,trainDataFile,responsesFile);
+	// Get features to train the KNN classifier
+	get_texture_data(nevoFolder, melanomaFolder, samples_training_percentange,trainDataFile,responsesFile,true);
 
-	get_test_data(nevoFolder, melanomaFolder, samples_training_percentange,testDataFile,realValuesTestData);
+	// Get features to test the KNN classifier
+	get_texture_data(nevoFolder, melanomaFolder, samples_training_percentange,testDataFile,realValuesTestData,false);
 	toc();
+
+
 }

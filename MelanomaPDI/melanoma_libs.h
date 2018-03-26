@@ -239,14 +239,14 @@ Mat get_segmented_image(Mat src) {
 	return resultAfterCrop;
 }
 
-int number_of_files_inside_folder(String folder_path) {
+int file_number(String folder_path) {
 	DIR *dp;
 	int i = 0;
 	struct dirent *ep;
 	dp = opendir(folder_path.c_str());
 
 	if (dp != NULL) {
-		while (ep = readdir(dp))
+		while ((ep = readdir(dp)))
 			i++;
 
 		(void) closedir(dp);
@@ -256,57 +256,116 @@ int number_of_files_inside_folder(String folder_path) {
 	//I don't know why
 }
 
+
 void rename_files(String path) {
 	stringstream imgPath;
 	imgPath << "./rename.sh " << path;
 	system(imgPath.str().c_str());
 }
 
-void get_training_data(String nevFolder, String melFolder, int s_perc,String trainDataFile, String responsesFile) {
+
+/**
+    Used to get the image features for the KNN classifier
+
+    @param nevFolder Folder with the nevo images.
+    @param melFolder Folder with the melanoma images.
+    @param s_perc Percentage of the total amount of images used for training.
+    @param trainDataFile File where the texture descriptors will be stored.
+    @param responsesFile File where the responses(0 for nevo|1 for melanoma) will be stored.
+    @param training True to get texture for training, False to get texture for testing.
+*/
+void get_texture_data(String nevFolder, String melFolder, int s_perc,
+		String trainDataFile, String responsesFile, bool training) {
+	// Variable used to store the image texture descriptors
 	float* texture_descriptors;
 
+	// The images inside both folders are renamed to numbers in crescent order, ex: 1.jpg, 2.jpg, 3.jpg...
 	rename_files(nevFolder);
 	rename_files(melFolder);
 
-	int number_of_nevos = number_of_files_inside_folder(nevFolder);
-	int number_of_melanomas = number_of_files_inside_folder(melFolder);
+	// Matrix used to store the source and segmented images
+	Mat src_image, segmented_image;
 
+	// Get the number of images inside each folder
+	int number_of_nevos = file_number(nevFolder);
+	int number_of_melanomas = file_number(melFolder);
+
+	// Get the percentual amount of images used for training
 	int nevos_for_training = round(number_of_nevos * s_perc / 100);
 	int melanomas_for_training = round(number_of_melanomas * s_perc / 100);
 
+	// Open the files where the traindata and responses will be stored
 	ofstream trainData, responses;
 	trainData.open(trainDataFile.c_str());
 	responses.open(responsesFile.c_str());
 
-	// Training the nevos
+	// Variable used to index the images
+	int begin_nevos = 0, end_nevos = 0, begin_melanoma = 0, end_melanoma = 0;
 
-	Mat src_image, segmented_image;
+	if (training) {
+		// Show the amount of images used for training
+		cout << nevos_for_training + melanomas_for_training
+				<< " images used to train the KNN classifier:" << endl;
+		cout << nevos_for_training << " nevos and " << melanomas_for_training
+				<< " melanoma images." << endl;
 
-	for (int i = 1; i <= nevos_for_training; i++) {
+		// Save this info in a txt file called training_info.txt in the following way: total_of_images nevos melanomas
+		ofstream train_file;
+		train_file.open("training_info.txt");
+		train_file << nevos_for_training + melanomas_for_training << " "<<nevos_for_training <<" "<< melanomas_for_training;
+		train_file.close();
+
+		begin_nevos = 1;
+		end_nevos = nevos_for_training;
+		begin_melanoma = 1;
+		end_melanoma = melanomas_for_training;
+	} else {
+		// Show the amount of images used for testing
+		cout << (number_of_nevos - nevos_for_training)+(number_of_melanomas-melanomas_for_training)
+				<< " images used to test the KNN classifier:" << endl;
+		cout << number_of_nevos - nevos_for_training << " nevos and " << number_of_melanomas-melanomas_for_training
+				<< " melanoma images." << endl;
+
+		// Save this info in a txt file called test_info.txt in the following way: total_of_images nevos melanomas
+		ofstream test_file;
+		test_file.open("test_info.txt");
+		test_file << (number_of_nevos - nevos_for_training)+(number_of_melanomas-melanomas_for_training) << " "<<number_of_nevos - nevos_for_training <<" "<< number_of_melanomas-melanomas_for_training;
+		test_file.close();
+
+		begin_nevos = nevos_for_training + 1;
+		end_nevos = number_of_nevos;
+		begin_melanoma = melanomas_for_training + 1;
+		end_melanoma = number_of_melanomas;
+	}
+
+	// Time to capture the texture descriptors from the nevos
+	for (int i = begin_nevos; i <= end_nevos; i++) {
+
 		stringstream imgPath;
 		imgPath << nevFolder << i << ".jpg";
-		Mat src_image = imread(imgPath.str());
+		src_image = imread(imgPath.str());
 		if (!src_image.data) {
 			cout << "File not found" << endl;
 		} else {
+
 			segmented_image = get_segmented_image(src_image);
+
+
 			texture_descriptors = get_texture_descriptors(segmented_image);
 
 			for (int j = 0; j < 5; j++) {
-					trainData << texture_descriptors[j] << " ";
+				trainData << texture_descriptors[j] << " ";
 			}
 			responses << "0" << "\n";
 			trainData << "\n";
-
 		}
 	}
 
-	// Training the melanomas
-
-	for (int i = 1; i <= melanomas_for_training; i++) {
+	// Time to capture the texture descriptors from the melanomas
+	for (int i = begin_melanoma; i <= end_melanoma; i++) {
 		stringstream imgPath;
 		imgPath << melFolder << i << ".jpg";
-		Mat src_image = imread(imgPath.str());
+		src_image = imread(imgPath.str());
 		if (!src_image.data) {
 			cout << "File not found" << endl;
 		} else {
@@ -315,79 +374,17 @@ void get_training_data(String nevFolder, String melFolder, int s_perc,String tra
 
 			for (int j = 0; j < 5; j++) {
 
-					trainData << texture_descriptors[j] << " ";
+				trainData << texture_descriptors[j] << " ";
 			}
 			responses << "1" << "\n";
 			trainData << "\n";
-
 		}
 	}
-
-
 	trainData.close();
 	responses.close();
-	cout << "Finish Training" << endl;
-}
-
-void get_test_data(String nevFolder, String melFolder, int s_perc,
-		String testDataFile, String realValuesTestData){
-
-
-	float* texture_descriptors;
-
-	int number_of_nevos = number_of_files_inside_folder(nevFolder);
-	int number_of_melanomas = number_of_files_inside_folder(melFolder);
-
-	int nevos_for_training = round(number_of_nevos * s_perc / 100);
-	int melanomas_for_training = round(number_of_melanomas * s_perc / 100);
-
-	ofstream testData,realData;
-	testData.open(testDataFile.c_str());
-	realData.open(realValuesTestData.c_str());
-
-	// Get nevos texture data
-
-	Mat src_image, segmented_image;
-
-	for (int i = (nevos_for_training+1); i <= number_of_nevos; i++) {
-		stringstream imgPath;
-		imgPath << nevFolder << i << ".jpg";
-		Mat src_image = imread(imgPath.str());
-		if (!src_image.data) {
-			cout << "File not found" << endl;
-		} else {
-			segmented_image = get_segmented_image(src_image);
-			texture_descriptors = get_texture_descriptors(segmented_image);
-
-			for (int j = 0; j < 5; j++) {
-					testData << texture_descriptors[j] << " ";
-			}
-			testData << "\n";
-			realData << "0" << "\n";
-		}
+	if (training) {
+		cout << "Database ready for training" << endl;
+	} else {
+		cout << "Database ready for testing" << endl;
 	}
-
-	// Get melanoma texture data
-
-	for (int i = (melanomas_for_training+1); i <= number_of_melanomas; i++) {
-		stringstream imgPath;
-		imgPath << melFolder << i << ".jpg";
-		Mat src_image = imread(imgPath.str());
-		if (!src_image.data) {
-			cout << "File not found" << endl;
-		} else {
-			segmented_image = get_segmented_image(src_image);
-			texture_descriptors = get_texture_descriptors(segmented_image);
-
-			for (int j = 0; j < 5; j++) {
-					testData << texture_descriptors[j] << " ";
-			}
-			testData << "\n";
-			realData << "1" << "\n";
-		}
-	}
-	testData.close();
-	cout << "Test data features collected" << endl;
-
 }
-
