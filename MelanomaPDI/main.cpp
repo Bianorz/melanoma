@@ -41,5 +41,7 @@ int main() {
 	get_texture_data(nevoFolder, melanomaFolder, samples_training_percentange,testDataFile,realValuesTestData,false);
 	toc();
 
+	system("python energy_KNN.py");
+
 
 }
