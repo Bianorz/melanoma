@@ -48,24 +48,19 @@ for x in range(0, 5):
    ret, results, neighbours, dist = knn.findNearest(np.float32([testData[:,x]]).T, neib)
    if x == 0:
        bug = results
-   for y in range(0,realData.size):
-       if realData[y] == 1 and results[y] == 1:
-           melanoma_Melanoma=melanoma_Melanoma+1
-       elif realData[y] == 0 and results[y] == 0:
-           nevo_Nevo=nevo_Nevo+1
-       elif realData[y] == 0 and results[y] == 1:
-          falsoPositivo=falsoPositivo+1
-       else:
-          falsoNegativo=falsoNegativo+1   
-   success_rate = acertos/float(realData.size)
-   error_rate = (falsoNegativo+falsoPositivo)/float(realData.size)
-   print "Error rate[",x,"] = ",error_rate*100,"%\n"
-   print "",melanoma_Melanoma*100/float(realData.size), "|", falsoNegativo*100/float(realData.size),"\n"
-   print "",falsoPositivo*100/float(realData.size), "|", nevo_Nevo*100/float(realData.size),"\n"
-   print "---------------------------------------"
-   
-   print "",melanoma_Melanoma*100/float(n_test_melanoma), "|", 100*falsoNegativo/(falsoNegativo+falsoPositivo),"\n"
-   print "",100*falsoPositivo/(falsoNegativo+falsoPositivo), "|", nevo_Nevo*100/float(n_test_nevo),"\n"
+   for y in range(0, realData.size):
+    if realData[y] == 1 and results[y] == 1:
+       melanoma_Melanoma = melanoma_Melanoma + 1
+    elif realData[y] == 0 and results[y] == 0:
+       nevo_Nevo = nevo_Nevo + 1
+    elif realData[y] == 0 and results[y] == 1:
+      falsoPositivo = falsoPositivo + 1
+    else:
+      falsoNegativo = falsoNegativo + 1   
+   success_rate = (melanoma_Melanoma + nevo_Nevo) / float(realData.size)
+   print "Sucess Rate[", x, "] = ", success_rate * 100, "%\n"
+   print "", melanoma_Melanoma * 100 / float(n_test_melanoma), "|", falsoNegativo * 100 / float(n_test_melanoma), "\n"
+   print "", falsoPositivo * 100 / float(n_test_nevo), "|", nevo_Nevo * 100 / float(n_test_nevo), "\n"
    print "-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-"
    #print "Falso Positivo[",x,"] = ",100*falsoPositivo/(falsoNegativo+falsoPositivo),"%\n"
    #print "Falso Negativo[",x,"] = ",100*falsoNegativo/(falsoNegativo+falsoPositivo),"%\n\n"   
