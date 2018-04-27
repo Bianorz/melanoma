@@ -32,7 +32,7 @@ int main() {
 	String realValuesTestData = "realData.csv";
 
 	// Database's percentage used for training the knn classification
-	int samples_training_percentange = 70;
+	int samples_training_percentange = 50;
 
 	// Get features to train the KNN classifier
 	get_texture_data(nevoFolder, melanomaFolder, samples_training_percentange,trainDataFile,responsesFile,true);
