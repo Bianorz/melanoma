@@ -1,0 +1,57 @@
+class =  0 
+
+Sucess Rate[ 0 ] =  64.1666666667 %
+
+ 65.0 | 35.0 
+
+ 36.6666666667 | 63.3333333333 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  62.5 %
+
+ 60.0 | 40.0 
+
+ 35.0 | 65.0 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  69.1666666667 %
+
+ 65.0 | 35.0 
+
+ 26.6666666667 | 73.3333333333 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  67.5 %
+
+ 55.0 | 45.0 
+
+ 20.0 | 80.0 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  68.3333333333 %
+
+ 61.6666666667 | 38.3333333333 
+
+ 25.0 | 75.0 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  32.5 %
+
+Falso Positivo =  46 %
+
+Falso Negativo =  53 %
+
+
+Error Rate for specific features combined =  33.3333333333 %
+
+Falso Positivo =  47 %
+
+Falso Negativo =  52 %

@@ -1,0 +1,55 @@
+Sucess Rate[ 0 ] =  64.6464646465 %
+
+ 69.696969697 | 30.303030303 
+
+ 40.404040404 | 59.595959596 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  66.1616161616 %
+
+ 70.7070707071 | 29.2929292929 
+
+ 38.3838383838 | 61.6161616162 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  62.1212121212 %
+
+ 71.7171717172 | 28.2828282828 
+
+ 47.4747474747 | 52.5252525253 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  66.6666666667 %
+
+ 67.6767676768 | 32.3232323232 
+
+ 34.3434343434 | 65.6565656566 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  69.696969697 %
+
+ 70.7070707071 | 29.2929292929 
+
+ 31.3131313131 | 68.6868686869 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  35.8585858586 %
+
+Falso Positivo =  61 %
+
+Falso Negativo =  38 %
+
+
+Error Rate for specific features combined =  33.8383838384 %
+
+Falso Positivo =  56 %
+
+Falso Negativo =  43 %
