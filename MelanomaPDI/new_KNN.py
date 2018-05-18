@@ -93,24 +93,24 @@ falsoNegativo = 0
 falsoPositivo = 0
 
 #=====================================================================
-C=np.zeros(responses.size)
-D=np.zeros(realData.size)
-C=np.float32(C).T
-D=np.float32(D).T
+TrainDataSpecificos=np.zeros(responses.size)
+TestDataSpecificos=np.zeros(realData.size)
+TrainDataSpecificos=np.float32(TrainDataSpecificos).T
+TestDataSpecificos=np.float32(TestDataSpecificos).T
 select = [0,1,1,1,0]
 
 #==============================================================================
 for x in range(0,5):
     if select[x] == 1:
-        C = np.column_stack((C,trainData[:,x]))
-        D = np.column_stack((D,testData[:,x]))
+        TrainDataSpecificos = np.column_stack((TrainDataSpecificos,trainData[:,x]))
+        TestDataSpecificos = np.column_stack((TestDataSpecificos,testData[:,x]))
 #==============================================================================
 #==============================================================================
-C = C[:,1:]
-D = D[:,1:]
+TrainDataSpecificos = TrainDataSpecificos[:,1:]
+TestDataSpecificos = TestDataSpecificos[:,1:]
 knn3 = cv2.ml.KNearest_create()
-knn3.train(C,cv2.ml.ROW_SAMPLE,responses)
-ret, results, neighbours, dist = knn3.findNearest(D, neib)
+knn3.train(TrainDataSpecificos,cv2.ml.ROW_SAMPLE,responses)
+ret, results, neighbours, dist = knn3.findNearest(TestDataSpecificos, neib)
 for y in range(0,realData.size):
        if realData[y] == results[y]:
            acertos=acertos+1

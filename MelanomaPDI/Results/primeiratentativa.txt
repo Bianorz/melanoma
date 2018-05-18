@@ -1,0 +1,12 @@
+386 images used to train the KNN classifier:
+249 nevos and 137 melanoma images.
+Database ready for training
+167 images used to test the KNN classifier:
+107 nevos and 60 melanoma images.
+Database ready for testing
+Time elapsed: 1110.16 sec
+Sucess Rate[ 3 ] =  73.6526946108 %
+
+ 53.3333333333 | 46.6666666667 
+
+ 14.953271028 | 85.046728972 

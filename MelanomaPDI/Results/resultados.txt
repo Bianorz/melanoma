@@ -1,0 +1,40 @@
+# [0] = contraste;
+# [1] = dissimilaridade;
+# [2] = homogeneidade;
+# [3] = energia;
+# [4] = entropia;
+
+Error rate[ 0 ] =  21.4285714286 %
+Falso Positivo[ 0 ] =  58 %
+Falso Negativo[ 0 ] =  41 %
+
+
+Error rate[ 1 ] =  17.8571428571 %
+Falso Positivo[ 1 ] =  70 %
+Falso Negativo[ 1 ] =  30 %
+
+
+Error rate[ 2 ] =  17.8571428571 %
+Falso Positivo[ 2 ] =  40 %
+Falso Negativo[ 2 ] =  60 %
+
+
+Error rate[ 3 ] =  17.8571428571 %
+Falso Positivo[ 3 ] =  50 %
+Falso Negativo[ 3 ] =  50 %
+
+
+Error rate[ 4 ] =  23.2142857143 %
+Falso Positivo[ 4 ] =  61 %
+Falso Negativo[ 4 ] =  38 %
+
+
+Error Rate for 5 features combined =  21.4285714286 %
+Falso Positivo =  58 %
+Falso Negativo =  41 %
+
+
+Error Rate for specific features combined =  17.8571428571 %
+Falso Positivo =  70 %
+Falso Negativo =  30 %
+(dissimilaridade, homogeneidade e energia)

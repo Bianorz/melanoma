@@ -149,7 +149,7 @@ Mat get_segmented_image(Mat src) {
 
 	Point topLeft;
 	Point bottonRight;
-	Size size(500, 400);
+	Size size(625, 500);
 
 	src.copyTo(original);
 	resize(src, src, size);
@@ -349,8 +349,9 @@ void get_texture_data(String nevFolder, String melFolder, int s_perc,
 		} else {
 
 			segmented_image = get_segmented_image(src_image);
-
-
+			char filename[120];
+			sprintf(filename,"/home/gdaco001/melanoma/MelanomaPDI/cropped_nevo_database/%d.jpg", i);
+			imwrite(filename,segmented_image);
 			texture_descriptors = get_texture_descriptors(segmented_image);
 
 			for (int j = 0; j < 5; j++) {
@@ -370,6 +371,9 @@ void get_texture_data(String nevFolder, String melFolder, int s_perc,
 			cout << "File not found" << endl;
 		} else {
 			segmented_image = get_segmented_image(src_image);
+			char filename[120];
+			sprintf(filename,"/home/gdaco001/melanoma/MelanomaPDI/cropped_melanoma_database/%d.jpg", i);
+			imwrite(filename,segmented_image);
 			texture_descriptors = get_texture_descriptors(segmented_image);
 
 			for (int j = 0; j < 5; j++) {
