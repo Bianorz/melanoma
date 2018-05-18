@@ -1,6 +1,17 @@
-Success Rate for colors = 80.8080808081 
-75.5102040816|25.5102040816
-13.2653061224|87.7551020408)
+Success Rate for specific features combined = 77.5 - para 274 imagens de treino e 120 imagens de teste
+
+78.33333333333333|21.666666666666668
+23.333333333333332|76.66666666666667
+
+Falso Positivo (Nevo classificado como melanoma) =51.851851851851855 
+Falso Negativo (Melanoma classificado como nevo) = 48.148148148148145
 -xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
-Falso Positivo =34 
-Falso Negativo = 65
+
+Success Rate for colors = 81.0 - para 194 imagens de treino e 200 imagens de teste
+
+75.0|25.0
+13.0|87.0
+
+Falso Positivo (Nevo classificado como melanoma) =34.21052631578947 
+Falso Negativo (Melanoma classificado como nevo) = 65.78947368421052
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
