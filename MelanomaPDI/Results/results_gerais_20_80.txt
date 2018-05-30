@@ -1,0 +1,92 @@
+Success Rate for specific features combined = 69.6202531646% - para 78 imagens de treino e 316 imagens de teste
+
+66.4556962025%|33.5443037975%
+27.2151898734%|72.7848101266%
+
+Falso Positivo (Nevo classificado como melanoma) =44% 
+Falso Negativo (Melanoma classificado como nevo) = 55%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for colors = 75.9493670886% - para 78 imagens de treino e 316 imagens de teste
+
+62.0253164557%|37.9746835443%
+10.1265822785%|89.8734177215%
+
+Falso Positivo (Nevo classificado como melanoma) =21% 
+Falso Negativo (Melanoma classificado como nevo) = 78%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for both = 69.6202531646% - para 78 imagens de treino e 316 imagens de teste
+
+68.3544303797%|31.6455696203%
+29.1139240506%|70.8860759494%
+
+Falso Positivo (Nevo classificado como melanoma) =47% 
+Falso Negativo (Melanoma classificado como nevo) = 52%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+
+runfile('/home/pesquisador/melanoma/MelanomaPDI/new_KNN.py', wdir='/home/pesquisador/melanoma/MelanomaPDI')
+class =  0 
+
+Sucess Rate[ 0 ] =  68.6708860759 %
+
+ 68.3544303797 | 31.6455696203 
+
+ 31.0126582278 | 68.9873417722 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  69.6202531646 %
+
+ 66.4556962025 | 33.5443037975 
+
+ 27.2151898734 | 72.7848101266 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  64.5569620253 %
+
+ 69.6202531646 | 30.3797468354 
+
+ 40.5063291139 | 59.4936708861 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  62.6582278481 %
+
+ 68.3544303797 | 31.6455696203 
+
+ 43.0379746835 | 56.9620253165 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  59.8101265823 %
+
+ 58.8607594937 | 41.1392405063 
+
+ 39.2405063291 | 60.7594936709 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  31.3291139241 %
+
+Falso Positivo =  49 %
+
+Falso Negativo =  50 %
+
+
+Error Rate for specific features combined =  30.3797468354 %
+
+Falso Positivo =  44 %
+
+Falso Negativo =  55 %
+
+# [0] = contraste;
+# [1] = dissimilaridade;
+# [2] = homogeneidade;
+# [3] = energia;
+# [4] = entropia;

@@ -1,0 +1,86 @@
+Success Rate for specific features combined = 71.6666666667% - para 274 imagens de treino e 120 imagens de teste
+Dissimilaridade e Homogeneidade
+81.6666666667%|18.3333333333%
+38.3333333333%|61.6666666667%
+
+Falso Positivo (Nevo classificado como melanoma) =67% 
+Falso Negativo (Melanoma classificado como nevo) = 32%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for colors = 80.8333333333% - para 274 imagens de treino e 120 imagens de teste
+
+76.6666666667%|23.3333333333%
+15.0%|85.0%
+
+Falso Positivo (Nevo classificado como melanoma) =39% 
+Falso Negativo (Melanoma classificado como nevo) = 60%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for both = 65.8333333333% - para 274 imagens de treino e 120 imagens de teste
+
+75.0%|25.0%
+43.3333333333%|56.6666666667%
+
+Falso Positivo (Nevo classificado como melanoma) =63% 
+Falso Negativo (Melanoma classificado como nevo) = 36%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+
+runfile('/home/pesquisador/melanoma/MelanomaPDI/new_KNN.py', wdir='/home/pesquisador/melanoma/MelanomaPDI')
+class =  0 
+
+Sucess Rate[ 0 ] =  60.8333333333 %
+
+ 75.0 | 25.0 
+
+ 53.3333333333 | 46.6666666667 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  70.0 %
+
+ 80.0 | 20.0 
+
+ 40.0 | 60.0 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  66.6666666667 %
+
+ 75.0 | 25.0 
+
+ 41.6666666667 | 58.3333333333 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  68.3333333333 %
+
+ 66.6666666667 | 33.3333333333 
+
+ 30.0 | 70.0 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  65.8333333333 %
+
+ 61.6666666667 | 38.3333333333 
+
+ 30.0 | 70.0 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  35.8333333333 %
+
+Falso Positivo =  65 %
+
+Falso Negativo =  34 %
+
+
+Error Rate for specific features combined =  30.0 %
+
+Falso Positivo =  66 %
+
+Falso Negativo =  33 %
