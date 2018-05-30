@@ -11,6 +11,7 @@ import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy import genfromtxt
+import pandas as pd
 #====================================
 # 0 - Nevo
 # 1 - Melanoma
@@ -38,19 +39,23 @@ realData0 = np.float32(realData0)
 cores_nevos = genfromtxt('nevos_cropped_cor.csv', delimiter=',')
 cores_nevos = np.float32(cores_nevos)
 cores_nevos = normalize(cores_nevos, axis=1, norm='max')
+df = pd.DataFrame(cores_nevos)
+df.to_csv("nevos_cropped_cor_normalizado.csv",header=None,index=None)
 
 cores_melanomas = genfromtxt('melanomas_cropped_cor.csv', delimiter=',')
 cores_melanomas = np.float32(cores_melanomas)
 cores_melanomas = normalize(cores_melanomas, axis=1, norm='max')
+df = pd.DataFrame(cores_melanomas)
+df.to_csv("melanomas_cropped_cor_normalizado.csv",header=None,index=None)
 
 #Setting the number of images to train and verify
 test_number = genfromtxt('test_info.txt', delimiter=' ')
 n_test_nevo0 = test_number[1]
 n_test_melanoma0 = test_number[2]
-n_test_nevo = 97
-n_test_melanoma = 97
-n_verif_nevo=100
-n_verif_melanoma=100
+n_test_nevo = len(responses0)/2
+n_test_melanoma = len(responses0)/2
+n_verif_nevo=len(realData0)/2
+n_verif_melanoma=len(realData0)/2
 linhascor,colcor=cores_melanomas.shape
 
 responses=np.float32(np.ones(int(n_test_nevo)*2))
@@ -80,7 +85,7 @@ TrainDataSpecificos=np.zeros(responses0.size)
 TestDataSpecificos=np.zeros(realData0.size)
 TrainDataSpecificos=np.float32(TrainDataSpecificos).T
 TestDataSpecificos=np.float32(TestDataSpecificos).T
-select = [1,1,1,1,1]
+select = [0,1,1,0,0]
 
 #==============================================================================
 
@@ -109,15 +114,15 @@ success_rate = (melanoma_Melanoma + nevo_Nevo) / float(realData0.size)
 error_rate = (falsoNegativo+falsoPositivo)/float(realData0.size)
 acertos = 0
 
-print ('Success Rate for specific features combined = {} - para {} imagens de treino e {} imagens de teste'.format(success_rate*100,trainData0.shape[0],testData0.shape[0]))
-print()
-print ('{}|{}'.format((melanoma_Melanoma * 100 / float(n_test_melanoma0)),(falsoNegativo * 100 / float(n_test_melanoma0))))
-print ('{}|{}'.format((falsoPositivo * 100 / float(n_test_nevo0)),(nevo_Nevo * 100/float(n_test_nevo0))))
-print()
-print ('Falso Positivo (Nevo classificado como melanoma) ={} '.format(100*falsoPositivo/(falsoNegativo+falsoPositivo)))
-print ('Falso Negativo (Melanoma classificado como nevo) = {}'.format(100*falsoNegativo/(falsoNegativo+falsoPositivo)))  
+print ('Success Rate for specific features combined = {}% - para {} imagens de treino e {} imagens de teste'.format(success_rate*100,trainData0.shape[0],testData0.shape[0]))
+print''
+print ('{}%|{}%'.format((melanoma_Melanoma * 100 / float(n_test_melanoma0)),(falsoNegativo * 100 / float(n_test_melanoma0))))
+print ('{}%|{}%'.format((falsoPositivo * 100 / float(n_test_nevo0)),(nevo_Nevo * 100/float(n_test_nevo0))))
+print''
+print ('Falso Positivo (Nevo classificado como melanoma) ={}% '.format(100*falsoPositivo/(falsoNegativo+falsoPositivo)))
+print ('Falso Negativo (Melanoma classificado como nevo) = {}%'.format(100*falsoNegativo/(falsoNegativo+falsoPositivo)))  
 print ('-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-')
-print()
+print''
 acertos = 0
 falsoPositivo = 0;
 falsoNegativo = 0;
@@ -144,13 +149,50 @@ success_rate = (melanoma_Melanoma + nevo_Nevo) / float(realData.size)
 error_rate = (falsoNegativo+falsoPositivo)/float(realData.size)
 acertos = 0
 
-print ('Success Rate for colors = {} - para {} imagens de treino e {} imagens de teste'.format(success_rate*100,n_test_nevo*2,n_verif_nevo*2))
-print()
-print ('{}|{}'.format((melanoma_Melanoma * 100 / float(n_verif_melanoma)),(falsoNegativo * 100 / float(n_verif_melanoma))))
-print ('{}|{}'.format((falsoPositivo * 100 / float(n_verif_nevo)),(nevo_Nevo * 100/float(n_verif_nevo))))
-print()
-print ('Falso Positivo (Nevo classificado como melanoma) ={} '.format(100*falsoPositivo/(falsoNegativo+falsoPositivo)))
-print ('Falso Negativo (Melanoma classificado como nevo) = {}'.format(100*falsoNegativo/(falsoNegativo+falsoPositivo)))
+print ('Success Rate for colors = {}% - para {} imagens de treino e {} imagens de teste'.format(success_rate*100,n_test_nevo*2,n_verif_nevo*2))
+print''
+print ('{}%|{}%'.format((melanoma_Melanoma * 100 / float(n_verif_melanoma)),(falsoNegativo * 100 / float(n_verif_melanoma))))
+print ('{}%|{}%'.format((falsoPositivo * 100 / float(n_verif_nevo)),(nevo_Nevo * 100/float(n_verif_nevo))))
+print''
+print ('Falso Positivo (Nevo classificado como melanoma) ={}% '.format(100*falsoPositivo/(falsoNegativo+falsoPositivo)))
+print ('Falso Negativo (Melanoma classificado como nevo) = {}%'.format(100*falsoNegativo/(falsoNegativo+falsoPositivo)))
 print ('-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-')
-print()   
+print''  
 
+acertos = 0
+falsoPositivo = 0;
+falsoNegativo = 0;
+melanoma_Melanoma = 0;
+nevo_Nevo = 0;
+
+#==============================================================================
+        #KNN TWOGUERAS
+#==============================================================================
+trainDataAmbos=np.hstack((trainData,trainData0))
+testDataAmbos=np.hstack((testData,testData0))
+
+knn = cv2.ml.KNearest_create()
+knn.train(np.float32(trainDataAmbos),cv2.ml.ROW_SAMPLE,responses)
+ret, results, neighbours, dist = knn.findNearest(np.float32(testDataAmbos), neib)
+for y in range(0, realData.size):
+    if realData[y] == 1 and results[y] == 1:
+       melanoma_Melanoma = melanoma_Melanoma + 1
+    elif realData[y] == 0 and results[y] == 0:
+       nevo_Nevo = nevo_Nevo + 1
+    elif realData[y] == 0 and results[y] == 1:
+      falsoPositivo = falsoPositivo + 1
+    elif realData[y] == 1 and results[y] == 0:
+      falsoNegativo = falsoNegativo + 1   
+success_rate = (melanoma_Melanoma + nevo_Nevo) / float(realData.size)
+error_rate = (falsoNegativo+falsoPositivo)/float(realData.size)
+acertos = 0
+
+print ('Success Rate for both = {}% - para {} imagens de treino e {} imagens de teste'.format(success_rate*100,n_test_nevo*2,n_verif_nevo*2))
+print''
+print ('{}%|{}%'.format((melanoma_Melanoma * 100 / float(n_verif_melanoma)),(falsoNegativo * 100 / float(n_verif_melanoma))))
+print ('{}%|{}%'.format((falsoPositivo * 100 / float(n_verif_nevo)),(nevo_Nevo * 100/float(n_verif_nevo))))
+print''
+print ('Falso Positivo (Nevo classificado como melanoma) ={}% '.format(100*falsoPositivo/(falsoNegativo+falsoPositivo)))
+print ('Falso Negativo (Melanoma classificado como nevo) = {}%'.format(100*falsoNegativo/(falsoNegativo+falsoPositivo)))
+print ('-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-')
+print'' 

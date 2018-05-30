@@ -14,7 +14,7 @@ from os import listdir
 from os.path import isfile, join
 
 
-mypath='/home/gdaco001/melanoma/MelanomaPDI/cropped_melanoma_database/'
+mypath='/home/pesquisador/melanoma/MelanomaPDI/cropped_melanoma_database/'
 onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ]
 cores=(len(onlyfiles),9)
 cores=np.zeros(cores)
@@ -51,7 +51,7 @@ df = pd.DataFrame(cores)
 df.to_csv("melanomas_cropped_cor.csv",header=None,index=None)
 print(df)
 
-mypath='/home/gdaco001/melanoma/MelanomaPDI/cropped_nevo_database/'
+mypath='/home/pesquisador/melanoma/MelanomaPDI/cropped_nevo_database/'
 onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ]
 cores=(len(onlyfiles),9)
 cores=np.zeros(cores)
