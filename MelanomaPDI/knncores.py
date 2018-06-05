@@ -34,6 +34,9 @@ trainData0 = np.float32(trainData0)
 responses0 = np.float32(responses0)
 testData0 = np.float32(testData0)
 realData0 = np.float32(realData0)
+# Normalizing the values 
+testData0= normalize(testData0,axis=0,norm='max')
+trainData0= normalize(trainData0,axis=0,norm='max')
 
 #Get data from .csv files generated from color features
 cores_nevos = genfromtxt('nevos_cropped_cor.csv', delimiter=',')
@@ -85,7 +88,7 @@ TrainDataSpecificos=np.zeros(responses0.size)
 TestDataSpecificos=np.zeros(realData0.size)
 TrainDataSpecificos=np.float32(TrainDataSpecificos).T
 TestDataSpecificos=np.float32(TestDataSpecificos).T
-select = [0,1,1,0,0]
+select = [1,1,0,0,0]
 
 #==============================================================================
 

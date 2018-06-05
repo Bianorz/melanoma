@@ -1,0 +1,89 @@
+Success Rate for specific features combined = 43.9873417722% - para 78 imagens de treino e 316 imagens de teste
+
+50.6329113924%|49.3670886076%
+62.6582278481%|37.3417721519%
+
+Falso Positivo (Nevo classificado como melanoma) =55% 
+Falso Negativo (Melanoma classificado como nevo) = 44%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for colors = 73.1012658228% - para 78 imagens de treino e 316 imagens de teste
+
+54.4303797468%|45.5696202532%
+8.22784810127%|91.7721518987%
+
+Falso Positivo (Nevo classificado como melanoma) =15% 
+Falso Negativo (Melanoma classificado como nevo) = 84%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for both = 66.4556962025% - para 78 imagens de treino e 316 imagens de teste
+
+41.7721518987%|58.2278481013%
+8.86075949367%|91.1392405063%
+
+Falso Positivo (Nevo classificado como melanoma) =13% 
+Falso Negativo (Melanoma classificado como nevo) = 86%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+class =  0 
+
+Sucess Rate[ 0 ] =  50.6329113924 %
+
+ 43.6708860759 | 56.3291139241 
+
+ 42.4050632911 | 57.5949367089 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  44.9367088608 %
+
+ 60.1265822785 | 39.8734177215 
+
+ 70.253164557 | 29.746835443 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  53.164556962 %
+
+ 50.0 | 50.0 
+
+ 43.6708860759 | 56.3291139241 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  53.4810126582 %
+
+ 86.7088607595 | 13.2911392405 
+
+ 79.746835443 | 20.253164557 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  56.0126582278 %
+
+ 69.6202531646 | 30.3797468354 
+
+ 57.5949367089 | 42.4050632911 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  50.9493670886 %
+
+Falso Positivo =  46 %
+
+Falso Negativo =  53 %
+
+
+Error Rate for specific features combined =  49.0506329114 %
+
+Falso Positivo =  50 %
+
+Falso Negativo =  49 %
+
+
+
+
+

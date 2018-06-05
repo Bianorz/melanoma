@@ -4,6 +4,8 @@ import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy import genfromtxt
+from sklearn.preprocessing import normalize
+
 #====================================
 # 0 - Nevo
 # 1 - Melanoma
@@ -26,7 +28,8 @@ trainData = np.float32(trainData)
 responses = np.float32(responses)
 testData = np.float32(testData)
 realData = np.float32(realData)
-
+testData= normalize(testData,axis=0,norm='max')
+trainData= normalize(trainData,axis=0,norm='max')
 # Get the number of nevos and melanomas for test
 test_number = genfromtxt('test_info.txt', delimiter=' ')
 n_test_nevo = test_number[1]
@@ -97,7 +100,7 @@ TrainDataSpecificos=np.zeros(responses.size)
 TestDataSpecificos=np.zeros(realData.size)
 TrainDataSpecificos=np.float32(TrainDataSpecificos).T
 TestDataSpecificos=np.float32(TestDataSpecificos).T
-select = [0,1,1,1,0]
+select = [1,1,0,0,1]
 
 #==============================================================================
 for x in range(0,5):

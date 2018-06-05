@@ -1,0 +1,84 @@
+Success Rate for specific features combined = 62.5% - para 274 imagens de treino e 120 imagens de teste
+
+93.3333333333%|6.66666666667%
+68.3333333333%|31.6666666667%
+
+Falso Positivo (Nevo classificado como melanoma) =91% 
+Falso Negativo (Melanoma classificado como nevo) = 8%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for colors = 80.8333333333% - para 274 imagens de treino e 120 imagens de teste
+
+75.0%|25.0%
+13.3333333333%|86.6666666667%
+
+Falso Positivo (Nevo classificado como melanoma) =34% 
+Falso Negativo (Melanoma classificado como nevo) = 65%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for both = 80.0% - para 274 imagens de treino e 120 imagens de teste
+
+81.6666666667%|18.3333333333%
+21.6666666667%|78.3333333333%
+
+Falso Positivo (Nevo classificado como melanoma) =54% 
+Falso Negativo (Melanoma classificado como nevo) = 45%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+class =  0 
+
+Sucess Rate[ 0 ] =  59.1666666667 %
+
+ 96.6666666667 | 3.33333333333 
+
+ 78.3333333333 | 21.6666666667 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  64.1666666667 %
+
+ 90.0 | 10.0 
+
+ 61.6666666667 | 38.3333333333 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  70.0 %
+
+ 68.3333333333 | 31.6666666667 
+
+ 28.3333333333 | 71.6666666667 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  50.0 %
+
+ 0.0 | 100.0 
+
+ 0.0 | 100.0 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  70.0 %
+
+ 68.3333333333 | 31.6666666667 
+
+ 28.3333333333 | 71.6666666667 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  33.3333333333 %
+
+Falso Positivo =  72 %
+
+Falso Negativo =  27 %
+
+
+Error Rate for specific features combined =  33.3333333333 %
+
+Falso Positivo =  70 %
+
+Falso Negativo =  30 %
