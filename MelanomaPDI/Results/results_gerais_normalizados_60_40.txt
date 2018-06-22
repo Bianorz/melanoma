@@ -1,0 +1,84 @@
+Success Rate for specific features combined = 63.698630137% - para 218 imagens de treino e 146 imagens de teste
+
+41.095890411%|58.904109589%
+13.698630137%|86.301369863%
+
+Falso Positivo (Nevo classificado como melanoma) =18% 
+Falso Negativo (Melanoma classificado como nevo) = 81%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for colors = 76.7123287671% - para 218 imagens de treino e 146 imagens de teste
+
+68.4931506849%|31.5068493151%
+15.0684931507%|84.9315068493%
+
+Falso Positivo (Nevo classificado como melanoma) =32% 
+Falso Negativo (Melanoma classificado como nevo) = 67%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for both = 69.8630136986% - para 218 imagens de treino e 146 imagens de teste
+
+54.7945205479%|45.2054794521%
+15.0684931507%|84.9315068493%
+
+Falso Positivo (Nevo classificado como melanoma) =25% 
+Falso Negativo (Melanoma classificado como nevo) = 75%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+class =  0 
+
+Sucess Rate[ 0 ] =  63.698630137 %
+
+ 78.0821917808 | 21.9178082192 
+
+ 50.6849315068 | 49.3150684932 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  53.4246575342 %
+
+ 46.5753424658 | 53.4246575342 
+
+ 39.7260273973 | 60.2739726027 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  49.3150684932 %
+
+ 41.095890411 | 58.904109589 
+
+ 42.4657534247 | 57.5342465753 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  56.8493150685 %
+
+ 57.5342465753 | 42.4657534247 
+
+ 43.8356164384 | 56.1643835616 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  56.1643835616 %
+
+ 47.9452054795 | 52.0547945205 
+
+ 35.6164383562 | 64.3835616438 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  36.9863013699 %
+
+Falso Positivo =  44 %
+
+Falso Negativo =  55 %
+
+
+Error Rate for specific features combined =  38.3561643836 %
+
+Falso Positivo =  35 %
+
+Falso Negativo =  64 %

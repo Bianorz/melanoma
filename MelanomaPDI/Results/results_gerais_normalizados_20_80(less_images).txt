@@ -1,0 +1,87 @@
+class =  0 
+
+Sucess Rate[ 0 ] =  51.0273972603 %
+
+ 26.0273972603 | 73.9726027397 
+
+ 23.9726027397 | 76.0273972603 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  1 
+
+Sucess Rate[ 1 ] =  49.6575342466 %
+
+ 33.5616438356 | 66.4383561644 
+
+ 34.2465753425 | 65.7534246575 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  2 
+
+Sucess Rate[ 2 ] =  48.9726027397 %
+
+ 44.5205479452 | 55.4794520548 
+
+ 46.5753424658 | 53.4246575342 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  3 
+
+Sucess Rate[ 3 ] =  60.2739726027 %
+
+ 63.0136986301 | 36.9863013699 
+
+ 42.4657534247 | 57.5342465753 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+class =  4 
+
+Sucess Rate[ 4 ] =  54.4520547945 %
+
+ 56.8493150685 | 43.1506849315 
+
+ 47.9452054795 | 52.0547945205 
+
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+Error Rate for 5 features combined =  41.7808219178 %
+
+Falso Positivo =  77 %
+
+Falso Negativo =  22 %
+
+
+Error Rate for specific features combined =  42.4657534247 %
+
+Falso Positivo =  54 %
+
+Falso Negativo =  45 %
+
+
+Success Rate for specific features combined = 59.5890410959% - para 72 imagens de treino e 292 imagens de teste
+
+80.1369863014%|19.8630136986%
+60.9589041096%|39.0410958904%
+
+Falso Positivo (Nevo classificado como melanoma) =75% 
+Falso Negativo (Melanoma classificado como nevo) = 24%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for colors = 62.6712328767% - para 72 imagens de treino e 292 imagens de teste
+
+39.0410958904%|60.9589041096%
+13.698630137%|86.301369863%
+
+Falso Positivo (Nevo classificado como melanoma) =18% 
+Falso Negativo (Melanoma classificado como nevo) = 81%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+Success Rate for both = 65.7534246575% - para 72 imagens de treino e 292 imagens de teste
+
+42.4657534247%|57.5342465753%
+10.9589041096%|89.0410958904%
+
+Falso Positivo (Nevo classificado como melanoma) =16% 
+Falso Negativo (Melanoma classificado como nevo) = 84%
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+
+
